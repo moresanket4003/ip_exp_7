@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+        }
+        .product h2 {
+            font-size: 18px;
+            color: #444;
+        }
+        .product p {
+            font-size: 16px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Catalog</h1>
+    <div class="products" id="productList"></div>
+
+    <script>
+        // Fetch products from the API and display them
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('productList');
+                data.data.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+                    productDiv.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <p>Category: ${product.category}</p>
+                        <p>Price: $${product.price}</p>
+                        <p>Stock: ${product.stock}</p>
+                    `;
+                    productList.appendChild(productDiv);
+                });
+            })
+            .catch(err => console.error('Error fetching products:', err));
+    </script>
+</body>
+</html>
